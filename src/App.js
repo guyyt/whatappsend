@@ -31,6 +31,10 @@ const localization =  {
   sent: {
     he: "פתח שיחה באפליקציה",
     en: "Open chat in WhatsApp"
+  },
+  contact :{
+    he: "הצעות? תקלות? צרו קשר",
+    en: "Contact us here"
   }
 }
 
@@ -98,6 +102,9 @@ class App extends React.Component  {
             <button primary class="ui button green" onClick={this.onClickSend.bind(this)}>{localization.sent[this.state.lang]}</button>
             </div>
         </div>
+        <footer style={{marginTop:'5em'}}>
+          <a href="https://www.facebook.com/locallyIL" target="_blank">{localization.contact[this.state.lang]}</a>
+        </footer>
       </div>
     );
   }
