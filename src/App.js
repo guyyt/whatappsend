@@ -1,15 +1,14 @@
-import logo from './logo.svg';
 import WhatsAppLogo from './whatsApp.svg.png';
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import './App.css';
 import 'semantic-ui-css/semantic.min.css'
 import React from 'react'
-import { Select, Input, Button } from 'semantic-ui-react'
+import { Select } from 'semantic-ui-react'
 
 const countryOptions = [
-  { value: 'en', label:  <div><img src="https://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" height="30px" width="30px" style={{marginRight: '10px'}}/>English </div>},
-  { value: 'he', label:  <div><img src="https://purecatamphetamine.github.io/country-flag-icons/3x2/IL.svg" height="30px" width="30px" style={{marginRight: '10px'}}/>עברית </div>}
+  { value: 'en', label:  <div><img src="https://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" alt="EN" height="30px" width="30px" style={{marginRight: '10px'}}/>English </div>},
+  { value: 'he', label:  <div><img src="https://purecatamphetamine.github.io/country-flag-icons/3x2/IL.svg" alt= "HE" height="30px" width="30px" style={{marginRight: '10px'}}/>עברית </div>}
 ]
 
 const localization =  {
@@ -42,7 +41,7 @@ class App extends React.Component  {
   }
 
   onLangChange(event){
-    if(event.target.innerText == "English"){
+    if(event.target.innerText === "English"){
       this.setState({lang: 'en'})}
     else{
       this.setState({lang: 'he'})
@@ -60,7 +59,7 @@ class App extends React.Component  {
   }
 
   onClickSend(){
-    if(this.state.phone == '' || !this.state.phone.startsWith('+')){
+    if(this.state.phone === '' || !this.state.phone.startsWith('+')){
       alert("Enter Valid Number")
     }
     else{
@@ -71,11 +70,11 @@ class App extends React.Component  {
   }
 
   render(){
-    let dir = this.state.lang == "he" ? "rtl" : "ltr";
+    let dir = this.state.lang === "he" ? "rtl" : "ltr";
     return (
       <div className="App" dir={dir}>
         <header className="App-header">
-        <Select dir="ltr" placeholder='Language' style={{float: 'right'}} value="Language" options={countryOptions} value={this.state.lang} onChange={this.onLangChange.bind(this)}/>
+        <Select dir="ltr" placeholder='Language' style={{float: 'right', minWidth: '7em'}} options={countryOptions}  onChange={this.onLangChange.bind(this)}/>
             <h1>
             {localization.header[this.state.lang]}
           </h1>
