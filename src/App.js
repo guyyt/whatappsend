@@ -103,7 +103,7 @@ class App extends React.Component  {
             </div>
         </div>
         <footer style={{marginTop:'5em'}}>
-          <a href="https://www.facebook.com/locallyIL" target="_blank" rel="noreferrer">{localization.contact[this.state.lang]}</a>
+          <a href="mailto:gu.yy.om.to.v@gmail.com" target="_blank" rel="noreferrer">{localization.contact[this.state.lang]}</a>
         </footer>
       </div>
     );
