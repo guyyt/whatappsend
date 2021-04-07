@@ -32,6 +32,14 @@ const localization =  {
     he: "פתח שיחה באפליקציה",
     en: "Open chat in WhatsApp"
   },
+  share: {
+    he: "שתף קישור למספר ",
+    en: "Share a link to number "
+  },
+  shared: {
+    he: "הקישור הועתק",
+    en: "Link was copied to clipboard"
+  },
   contact :{
     he: "הצעות? תקלות? צרו קשר",
     en: "Contact us here"
@@ -41,7 +49,14 @@ const localization =  {
 class App extends React.Component  {
   constructor(){
     super();
-    this.state = {lang: 'he', phone: '', text: ''};
+    this.state = {lang: 'he', phone: '', text: '', isShared: false};
+    const queryString = window.location.search;
+    if(queryString.startsWith("?phone")){
+      const phone = queryString.substring(7);
+      if(phone !== '' && phone.startsWith('+')){
+        this.state.phone = phone;
+      }
+    }
   }
 
   onLangChange(event){
@@ -55,6 +70,7 @@ class App extends React.Component  {
   setPhone(value)
   {
     this.setState({phone: value})
+    this.setState({isShared: false});
   }
 
   onTextChange(e)
@@ -73,8 +89,33 @@ class App extends React.Component  {
     }
   }
 
+  copyToClipboard(text) {
+    var dummy = document.createElement("textarea");
+    // to avoid breaking orgain page when copying more words
+    // cant copy when adding below this code
+    // dummy.style.display = 'none'
+    document.body.appendChild(dummy);
+    //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+    dummy.value = text;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+}
+
+  onShareClick(){
+    if(this.state.phone === '' || !this.state.phone.startsWith('+')){
+      alert("Enter Valid Number")
+    }
+    else{
+      let url = `https://sendwhatsapp.com?phone=${this.state.phone}`;
+      this.copyToClipboard(url);
+      this.setState({isShared: true});
+    }
+  }
+
   render(){
     let dir = this.state.lang === "he" ? "rtl" : "ltr";
+    let shareText = this.state.isShared ? `${localization.shared[this.state.lang]}` : `${localization.share[this.state.lang]}\n${this.state.phone}`
     return (
       <div className="App" dir={dir}>
         <header className="App-header">
@@ -101,9 +142,13 @@ class App extends React.Component  {
             <div style={{marginTop: '20px'}}>
             <button primary class="ui button green" onClick={this.onClickSend.bind(this)}>{localization.sent[this.state.lang]}</button>
             </div>
+            <div style={{marginTop: '20px'}}>
+            <button primary class="ui button gray" onClick={this.onShareClick.bind(this)}>{shareText}</button>
+            </div>
         </div>
-        <footer style={{marginTop:'5em'}}>
+        <footer style={{marginTop:'5em', fontSize: '19px'}}>
           <a href="mailto:gu.yy.om.to.v@gmail.com" target="_blank" rel="noreferrer">{localization.contact[this.state.lang]}</a>
+          <p><sup>&reg;</sup>Developed by Guy Yom Tov</p>
         </footer>
       </div>
     );
